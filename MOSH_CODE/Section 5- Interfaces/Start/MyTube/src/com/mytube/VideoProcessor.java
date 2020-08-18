@@ -1,14 +1,23 @@
 package com.mytube;
 
 public class VideoProcessor {
+
+    private VideoDatabase database;
+    private VideoEncoder encoder;
+    private EmailService emailService;
+
+    public VideoProcessor(VideoDatabase database,
+                          VideoEncoder encoder,
+                          EmailService emailService) {
+        this.database = database;
+        this.emailService = emailService;
+        this.encoder = encoder;
+    }
+
+
     public void process(Video video) {
-        var encoder = new VideoEncoder();
         encoder.encode(video);
-
-        var database = new VideoDatabase();
         database.store(video);
-
-        var emailService = new EmailService();
         emailService.sendEmail(video.getUser());
     }
 }
